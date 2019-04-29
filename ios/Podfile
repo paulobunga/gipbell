@@ -29,6 +29,8 @@ target 'gipbell' do
 
   use_unimodules!
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
   target 'gipbellTests' do
     inherit! :search_paths
   end
