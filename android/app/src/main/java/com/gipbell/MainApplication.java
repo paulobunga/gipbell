@@ -3,6 +3,7 @@ package com.gipbell;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.reactnative.camera.RNCameraPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.voximplant.reactnative.VoxImplantReactPackage;
 import com.facebook.react.ReactNativeHost;
@@ -18,6 +19,7 @@ import org.unimodules.core.interfaces.SingletonModule;
 import expo.modules.constants.ConstantsPackage;
 import expo.modules.permissions.PermissionsPackage;
 import expo.modules.filesystem.FileSystemPackage;
+import expo.modules.barcodescanner.BarCodeScannerPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
      new ReactAdapterPackage(),
      new ConstantsPackage(),
      new PermissionsPackage(),
-     new FileSystemPackage()
+     new FileSystemPackage(),
+     new BarCodeScannerPackage()
   ), Arrays.<SingletonModule>asList());
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -40,6 +43,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNCameraPackage(),
             new RNGestureHandlerPackage(),
             new VoxImplantReactPackage(),
           new ModuleRegistryAdapter(mModuleRegistryProvider)
