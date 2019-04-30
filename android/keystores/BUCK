@@ -1,7 +1,7 @@
 keystore(
     name = "debug",
     properties = "debug.keystore.properties",
-    store = "debug.keystore",
+    storeConfig = "debug.keystore",
     visibility = [
         "PUBLIC",
     ],
