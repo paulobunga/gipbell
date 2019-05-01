@@ -1,4 +1,4 @@
-import { headerBgColor, headerFontColor } from "./colors";
+import { headerBgColor, headerFontColor } from "./variables";
 
 export default {
     headerStyle: {
