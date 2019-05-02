@@ -22,7 +22,7 @@ class SignInScreen extends React.Component {
                         <Text>Sign In</Text>
                     </Button>
                     <Button
-                        onPress={() => this.props.navigation.navigate('SignIn')}
+                        onPress={() => this.props.navigation.navigate('SignUp')}
                         block
                         light
                     >

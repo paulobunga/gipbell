@@ -1,10 +1,10 @@
-import { headerBgColor, headerFontColor } from "./variables";
+import * as variables from "./variables";
 
 export default {
     headerStyle: {
-        backgroundColor: headerBgColor,
+        backgroundColor: variables.primaryBgColor,
     },
-    headerTintColor: headerFontColor,
+    headerTintColor: variables.lightTextColor,
     headerTitleStyle: {
         fontWeight: 'bold',
     }

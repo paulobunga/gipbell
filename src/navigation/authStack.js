@@ -1,38 +1,34 @@
-import { createSwitchNavigator, createStackNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation";
 import HelloScreen from '../screens/HelloScreen';
 import SignInScreen from "../screens/SignInScreen";
 import SignUpScreen from "../screens/SignUpScreen";
-import React from 'react';
-
-const switchNavigator =  createSwitchNavigator(
-    {
-        SignIn: {
-            screen: SignInScreen,
-            navigationOptions: {
-            }
-        },
-        SignUp: {
-            screen: SignUpScreen,
-            navigationOptions: {
-            }
-        }
-    },
-    {
-        initialRouteName: "SignIn",
-    }
-);
+import headerStyle from "../style/header";
 
 export default createStackNavigator(
     {
         Hello: {
             screen: HelloScreen,
             navigationOptions: {
+                header: null
             }
         },
-        Login: switchNavigator
+        SignIn: {
+            screen: SignInScreen,
+            navigationOptions: ({ navigation }) => ({
+                title: 'Sign In',
+            }),
+        },
+        SignUp: {
+            screen: SignUpScreen,
+            navigationOptions: ({ navigation }) => ({
+                title: 'Create new account',
+            }),
+        }
     },
     {
         initialRouteName: "Hello",
-        headerMode: 'none'
+        defaultNavigationOptions: {
+            ...headerStyle
+        }
     }
 )

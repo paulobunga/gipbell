@@ -1,10 +1,10 @@
 import React from 'react';
-import SignUp from '../../containers/SignUp';
+import SignUpForm from '../../containers/SignUpForm';
 
 class SignUpScreen extends React.Component {
     render() {
         return (
-            <SignUp/>
+            <SignUpForm />
         );
     }
 }

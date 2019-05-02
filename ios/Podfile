@@ -39,6 +39,8 @@ target 'gipbell' do
 
   pod 'RNReanimated', :path => '../node_modules/react-native-reanimated'
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   target 'gipbellTests' do
     inherit! :search_paths
   end

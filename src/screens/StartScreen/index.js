@@ -2,8 +2,6 @@ import React from 'react';
 import { View, Text, Button } from 'react-native';
 import styles from './styles';
 import { Voximplant } from 'react-native-voximplant';
-const client = Voximplant.getInstance();
-console.log(client);
 
 export default class App extends React.Component {
 

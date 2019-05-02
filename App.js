@@ -9,9 +9,7 @@ export default class App extends React.Component {
   render() {
       return (
           <Provider store={store}>
-              <PersistGate loading={<Loader />} persistor={persistor}>
-                 <AppNavigator />
-              </PersistGate>
+             <AppNavigator />
           </Provider>
       );
   }
