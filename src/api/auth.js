@@ -12,7 +12,6 @@ export const loginWithPassword = async (username, password) => {
             await client.connect();
         }
         const authResult = await client.login(username + APP_POSTFIX, password);
-        console.log(authResult);
         return {
             success: true,
             error: null,
@@ -46,6 +45,12 @@ export const loginWithToken = async (username, token) => {
             tokens: null
         }
     }
+};
+
+export const createUser = async data => {
+    return axios.post(`${BASE_URL}/user`, {
+        ...data
+    }).then(res => res.data);
 };
 
 export const getUserData = async username => {

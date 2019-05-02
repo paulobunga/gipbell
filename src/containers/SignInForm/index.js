@@ -6,7 +6,7 @@ import { Form, Item, Input, Label, Text, Button } from 'native-base';
 import * as variables from '../../style/variables';
 import { validatePassword, validateUsername } from "../validation";
 
-class SignIn extends React.Component {
+class SignInForm extends React.Component {
 
     state = {
         username: '',
@@ -37,6 +37,9 @@ class SignIn extends React.Component {
             isValidUsername: !usernameError,
             isValidPassword: !passwordError
         });
+        if (usernameError || passwordError) {
+            return;
+        }
         this.props.auth({
             username,
             password
@@ -48,10 +51,6 @@ class SignIn extends React.Component {
             this.props.onLogin();
         }
     }
-
-    validateUsername = e => {
-        this.setS
-    };
 
     componentWillUnmount() {
         if (!this.props.isAuthorized) {
@@ -117,4 +116,4 @@ const mapStateToProps = state => state.user;
 export default connect(
     mapStateToProps,
     actionCreators,
-)(SignIn);
+)(SignInForm);

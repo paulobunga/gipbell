@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 export const authRequest = createAction('USER_AUTH_REQUEST');
 export const authFailure = createAction('USER_AUTH_FAILURE');
 export const authSuccess = createAction('USER_AUTH_SUCCESS');
+
 export const auth = ({ username, password }) => async dispatch => {
     dispatch(authRequest());
     const { success, error, tokens } = await API.loginWithPassword(username, password);
@@ -24,7 +25,6 @@ export const checkAuth = () => async dispatch => {
     try {
         const user_name = await AsyncStorage.getItem('user_name');
         const savedTokens = JSON.parse(await AsyncStorage.getItem('tokens'));
-        console.log(savedTokens);
         const { success, error, tokens } = await API.loginWithToken(user_name, savedTokens.accessToken);
         if (!success) {
             return dispatch(authFailure(error));
@@ -35,6 +35,19 @@ export const checkAuth = () => async dispatch => {
         return dispatch(authFailure(null));
     }
 
+};
+
+export const createUser = data => async dispatch => {
+    dispatch(authRequest());
+    const res = await API.createUser(data);
+    if (res.error) {
+        return dispatch(authFailure(res.error.msg));
+    }
+    const { user_password, user_name } = data;
+    dispatch(auth({
+        username: user_name,
+        password: user_password
+    }));
 };
 
 export const clearUserData = createAction('USER_CLEAR_DATA');
