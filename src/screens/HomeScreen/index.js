@@ -1,33 +1,71 @@
 import React from 'react';
-import { View, Text, Button } from 'react-native';
-import { connect } from "react-redux";
-import * as actionCreators from "../../actions";
+import { StyleSheet } from 'react-native';
+import * as variables from '../../style/variables';
+import {  Text, Button, View } from 'native-base';
 
 class HomeScreen extends React.Component {
 
-    logout = e => {
-        this.props.logout();
-        this.props.navigation.navigate('Auth');
-    };
+    onScan() {
+        this.props.navigation.navigate('')
+    }
+
+    onGenerate() {
+        this.props.navigation.navigate('CodeGenerator')
+    }
+
+    onEditInfo() {
+        this.props.navigation.navigate('');
+    }
 
     render() {
         return (
-            <View style={{
-                flex: 1,
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <Text>Home Screen</Text>
-                <Text>{this.props.user_display_name}</Text>
-                <Button onPress={this.logout} title={'Logout'}/>
+            <View style={style.container}>
+                <Text style={style.header}>Welcome!</Text>
+                <Button
+                    block
+                    primary
+                    onPress={() => this.onScan()}
+                >
+                    <Text>Scan QR code</Text>
+                </Button>
+                <Button
+                    block
+                    primary
+                    onPress={() => this.onGenerate()}
+                    style={style.button}
+                >
+                    <Text>Generate your QR code</Text>
+                </Button>
+                <Button
+                    block
+                    primary
+                    onPress={() => this.onEditInfo()}
+                    style={style.button}
+                >
+                    <Text>Edit your information</Text>
+                </Button>
             </View>
         );
     }
 }
 
-const mapStateToProps = state => state.user;
+const style = StyleSheet.create({
+    container: {
+        width: '90%',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    header: {
+        fontSize: variables.fontXXLarge,
+        color: variables.darkTextColor,
+        marginBottom: 40
+    },
+    button: {
+        marginTop: 10
+    }
+});
 
-export default connect(
-    mapStateToProps,
-    actionCreators,
-)(HomeScreen);
+export default HomeScreen;

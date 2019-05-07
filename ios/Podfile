@@ -41,6 +41,10 @@ target 'gipbell' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'gipbellTests' do
     inherit! :search_paths
   end
