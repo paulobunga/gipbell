@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import * as variables from '../../style/variables';
-import { Text, Button, View } from 'native-base';
-import CodeGenerator from '../../containers/CodeGenerator';
+import { View } from 'native-base';
+import CodeGenerator from '../containers/CodeGenerator';
 
 class CodeGeneratorScreen extends React.Component {
 

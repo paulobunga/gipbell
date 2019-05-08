@@ -1,7 +1,7 @@
 import React from 'react';
-import * as actionCreators from '../../actions';
+import * as actionCreators from '../actions';
 import { connect } from 'react-redux';
-import Loader from '../../components/Loader';
+import Loader from '../components/Loader';
 
 class AuthChecker extends React.Component {
 

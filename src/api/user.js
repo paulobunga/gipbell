@@ -61,6 +61,14 @@ export const getUserData = async username => {
     }).then(res => res.data);
 };
 
+export const getUserDataById = async user_id => {
+    return axios.get(`${BASE_URL}/user`, {
+        params: {
+            'user_id': user_id
+        }
+    }).then(res => res.data);
+};
+
 export const logout = async () => {
     return client.disconnect();
 };

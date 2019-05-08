@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { View, Button, Text } from 'native-base';
-import * as variables from '../../style/variables';
+import * as variables from '../style/variables';
 
 
 class SignInScreen extends React.Component {

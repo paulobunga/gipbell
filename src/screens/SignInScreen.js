@@ -1,7 +1,7 @@
 import React from 'react';
-import SignInForm from '../../containers/SignInForm';
+import SignInForm from '../containers/SignInForm';
 import { View, Text, StyleSheet } from 'react-native';
-import * as variables from '../../style/variables';
+import * as variables from '../style/variables';
 
 class SignInScreen extends React.Component {
     render() {

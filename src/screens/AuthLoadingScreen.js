@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthChecker from '../../containers/AuthChecker';
+import AuthChecker from '../containers/AuthChecker';
 
 class AuthLoadingScreen extends React.Component {
     render() {

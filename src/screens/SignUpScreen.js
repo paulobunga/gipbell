@@ -1,7 +1,7 @@
 import React from 'react';
-import SignUpForm from '../../containers/SignUpForm';
+import SignUpForm from '../containers/SignUpForm';
 import { View, Text, StyleSheet } from 'react-native';
-import * as variables from '../../style/variables';
+import * as variables from '../style/variables';
 
 class SignUpScreen extends React.Component {
     render() {

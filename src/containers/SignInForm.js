@@ -1,34 +1,24 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import * as actionCreators from '../../actions';
+import * as actionCreators from '../actions';
 import { connect } from 'react-redux';
 import { Form, Item, Input, Label, Text, Button } from 'native-base';
-import * as variables from '../../style/variables';
-import { validateName, validatePassword, validateUsername, validatePasswords } from "../validation";
+import * as variables from '../style/variables';
+import { validatePassword, validateUsername } from "../util/validation";
 
-class SignUpForm extends React.Component {
+class SignInForm extends React.Component {
 
     state = {
         username: '',
         password: '',
-        verifyPassword: '',
-        name: '',
         errorMessage: null,
         isValidUsername: true,
-        isValidPassword: true,
-        isValidVerifyPassword: true,
-        isValidName: true,
+        isValidPassword: true
     };
 
     onPasswordChange = ({ nativeEvent }) => {
         this.setState({
             password: nativeEvent.text
-        })
-    };
-
-    onVerifyPasswordChange = ({ nativeEvent }) => {
-        this.setState({
-            verifyPassword: nativeEvent.text
         })
     };
 
@@ -38,32 +28,21 @@ class SignUpForm extends React.Component {
         })
     };
 
-    onNameChange = ({ nativeEvent }) => {
-        this.setState({
-            name: nativeEvent.text
-        })
-    };
-
     onSubmit = e => {
-        const { username, password, verifyPassword, name } = this.state;
+        const { username, password } = this.state;
         const usernameError = validateUsername(username);
         const passwordError = validatePassword(password);
-        const verifyPasswordError = validatePasswords(password, verifyPassword);
-        const nameError = validateName(name);
         this.setState({
-            errorMessage: usernameError || passwordError || verifyPasswordError || nameError,
+            errorMessage: usernameError || passwordError,
             isValidUsername: !usernameError,
-            isValidPassword: !passwordError,
-            isValidVerifyPassword: !verifyPasswordError,
-            isValidName: !nameError
+            isValidPassword: !passwordError
         });
-        if (usernameError || passwordError || verifyPasswordError || nameError) {
+        if (usernameError || passwordError) {
             return;
         }
-        this.props.createUser({
-            user_name: username,
-            user_password: password,
-            user_display_name: name
+        this.props.auth({
+            username,
+            password
         })
     };
 
@@ -97,23 +76,6 @@ class SignUpForm extends React.Component {
                         value={this.state.password}
                         onChange={this.onPasswordChange}
                         secureTextEntry={true}
-                    />
-                </Item>
-                <Item fixedLabel
-                      error={!this.state.isValidVerifyPassword}>
-                    <Label>Verify Password</Label>
-                    <Input
-                        value={this.state.verifyPassword}
-                        onChange={this.onVerifyPasswordChange}
-                        secureTextEntry={true}
-                    />
-                </Item>
-                <Item fixedLabel
-                      error={!this.state.isValidName}>
-                    <Label>Name</Label>
-                    <Input
-                        value={this.state.name}
-                        onChange={this.onNameChange}
                     />
                 </Item>
                 <Button
@@ -154,4 +116,4 @@ const mapStateToProps = state => state.user;
 export default connect(
     mapStateToProps,
     actionCreators,
-)(SignUpForm);
+)(SignInForm);

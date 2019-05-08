@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import * as actionCreators from '../../actions';
+import * as actionCreators from '../actions';
 import { connect } from 'react-redux';
 import QRCode from 'react-native-qrcode-svg';
 import { CameraRoll , ToastAndroid } from "react-native"
@@ -43,11 +43,10 @@ class CodeGenerator extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         return (
             <View style={style.container}>
                 <QRCode
-                    value={String(this.props.user_id)}
+                    value={JSON.stringify({user_id: this.props.user_id})}
                     getRef={(c) => (this.svg = c)}
                     size={300}
                 />

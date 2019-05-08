@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import * as variables from '../../style/variables';
+import * as variables from '../style/variables';
 import {  Text, Button, View } from 'native-base';
 
 class HomeScreen extends React.Component {
 
     onScan() {
-        this.props.navigation.navigate('')
+        this.props.navigation.navigate('CodeScanner')
     }
 
     onGenerate() {
@@ -41,6 +41,7 @@ class HomeScreen extends React.Component {
                     primary
                     onPress={() => this.onEditInfo()}
                     style={style.button}
+                    disabled={true}
                 >
                     <Text>Edit your information</Text>
                 </Button>

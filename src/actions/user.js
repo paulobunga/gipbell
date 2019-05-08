@@ -1,5 +1,5 @@
 import { createAction } from 'redux-actions';
-import * as API from "../api/auth";
+import * as API from "../api/user";
 import AsyncStorage from '@react-native-community/async-storage';
 
 export const authRequest = createAction('USER_AUTH_REQUEST');
