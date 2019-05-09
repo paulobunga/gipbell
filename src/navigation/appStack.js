@@ -4,6 +4,7 @@ import CodeGeneratorScreen from '../screens/CodeGeneratorScreen';
 import CodeScannerScreen from '../screens/CodeScannerScreen';
 import ForeignProfileScreen from '../screens/ForeignProfileScreen';
 import IncomingCallScreen from '../screens/IncomingCallScreen';
+import ActiveCallScreen from '../screens/ActiveCallScreen';
 import headerStyle from "../style/header";
 
 export default createStackNavigator(
@@ -34,6 +35,12 @@ export default createStackNavigator(
         },
         IncomingCall: {
             screen: IncomingCallScreen,
+            navigationOptions: {
+                header: null
+            }
+        },
+        ActiveCall: {
+            screen: ActiveCallScreen,
             navigationOptions: {
                 header: null
             }

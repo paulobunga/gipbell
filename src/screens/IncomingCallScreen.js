@@ -9,11 +9,18 @@ class IncomingCallScreen extends React.Component {
         this.props.navigation.goBack();
     };
 
+    onCallAnswered = () => {
+        this.props.navigation.navigate('ActiveCall');
+    };
+
     render() {
         return (
             <View style={style.container}>
                 <Text style={style.header}>Incoming call</Text>
-                <IncomingCall onCallDisconnected={this.onCallDisconnected}/>
+                <IncomingCall
+                    onCallDisconnected={this.onCallDisconnected}
+                    onCallAnswered={this.onCallAnswered}
+                />
             </View>
         );
     }

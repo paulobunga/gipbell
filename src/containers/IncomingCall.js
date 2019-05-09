@@ -25,11 +25,8 @@ class IncomingCall extends React.Component {
             ...(sendVideo ? [ PermissionsAndroid.PERMISSIONS.CAMERA ] : [])
         ];
         const permissionsResponse = await PermissionsAndroid.requestMultiple(permissions);
-        this.props.setCurrentCall({ call, isVideo: sendVideo });
-        this.props.navigation.navigate('Call', {
-            isVideo: sendVideo,
-            isIncoming: true
-        });
+        this.props.setCurrentCall({ call, isVideo: sendVideo, isIncoming: true });
+        this.props.onCallAnswered();
     }
 
     decline() {

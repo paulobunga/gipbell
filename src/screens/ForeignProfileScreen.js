@@ -4,10 +4,17 @@ import ForeignProfile from '../containers/ForeignProfile';
 
 class ForeignProfileScreen extends React.Component {
 
+    onCallMade = () => {
+        this.props.navigation.navigate('ActiveCall');
+    };
+
     render() {
         return (
             <View style={style.container}>
-                <ForeignProfile user_id={this.props.navigation.getParam('user_id')}/>
+                <ForeignProfile
+                    user_id={this.props.navigation.getParam('user_id')}
+                    onCallMade={this.onCallMade}
+                />
             </View>
         );
     }
