@@ -3,6 +3,7 @@ import HomeScreen from "../screens/HomeScreen";
 import CodeGeneratorScreen from '../screens/CodeGeneratorScreen';
 import CodeScannerScreen from '../screens/CodeScannerScreen';
 import ForeignProfileScreen from '../screens/ForeignProfileScreen';
+import IncomingCallScreen from '../screens/IncomingCallScreen';
 import headerStyle from "../style/header";
 
 export default createStackNavigator(
@@ -30,6 +31,12 @@ export default createStackNavigator(
             navigationOptions: ({ navigation }) => ({
                 title: 'Profile',
             }),
+        },
+        IncomingCall: {
+            screen: IncomingCallScreen,
+            navigationOptions: {
+                header: null
+            }
         }
     },
     {
