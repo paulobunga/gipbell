@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import CallManager from "../manager/CallManager";
 import * as variables from '../style/variables';
 import {  Text, Button, View } from 'native-base';
 
@@ -15,6 +16,10 @@ class HomeScreen extends React.Component {
 
     onEditInfo() {
         this.props.navigation.navigate('');
+    }
+
+    componentDidMount() {
+        CallManager.init();
     }
 
     render() {

@@ -202,9 +202,9 @@ class ActiveCall extends React.Component {
             const notificationConfig = {
                 channelId: 'ForegroundServiceChannel',
                 id: 3456,
-                title: 'Voximplant',
-                text: 'Call in progress',
-                icon: 'ic_vox_notification'
+                title: 'Call in progress',
+                text: `You have one call in progress with ${this.props.currentCall.participant.user_display_name}`,
+                icon: 'notification_icon'
             };
             (async() => {
                 await VIForegroundService.createNotificationChannel(channelConfig);

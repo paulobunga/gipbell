@@ -34,7 +34,7 @@ class ForeignProfile extends React.Component {
                 }
             };
             const call = await Voximplant.getInstance().call(userData.user_name, callSettings);
-            this.props.setCurrentCall({ call, isVideo: isVideoCall, isIncoming: false });
+            this.props.setCurrentCall({ call, isVideo: isVideoCall, isIncoming: false, participant: this.state.userData });
             this.props.onCallMade();
         } catch (e) {
             console.log(e);

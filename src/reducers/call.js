@@ -9,8 +9,8 @@ const initialState = {
 const call = handleActions(
     {
         [actions.setCurrentCall](state, { payload }) {
-            const { call, isVideo, isIncoming } = payload;
-            return { ...state, currentCall: { call, isVideo, isIncoming } };
+            const { call, isVideo, isIncoming, participant } = payload;
+            return { ...state, currentCall: { call, isVideo, isIncoming, participant } };
         },
         [actions.removeCurrentCall](state) {
             return { ...state, currentCall: null };

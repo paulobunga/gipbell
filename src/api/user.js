@@ -1,4 +1,7 @@
+import AsyncStorage from "@react-native-community/async-storage";
 import { Voximplant } from 'react-native-voximplant';
+import { authFailure, authSuccess } from "../actions";
+import PushManager from "../manager/PushManager";
 import { APP_POSTFIX, BASE_URL } from "./constants";
 import axios from 'axios';
 
@@ -12,6 +15,7 @@ export const loginWithPassword = async (username, password) => {
             await client.connect();
         }
         const authResult = await client.login(username + APP_POSTFIX, password);
+        client.registerPushNotificationsToken(PushManager.getPushToken());
         return {
             success: true,
             error: null,
@@ -26,13 +30,16 @@ export const loginWithPassword = async (username, password) => {
     }
 };
 
-export const loginWithToken = async (username, token) => {
+export const loginWithSavedToken = async () => {
     try {
+        const user_name = await AsyncStorage.getItem('user_name');
+        const { accessToken } = JSON.parse(await AsyncStorage.getItem('tokens'));
         const state = await client.getClientState();
         if (state === Voximplant.ClientState.DISCONNECTED) {
             await client.connect();
         }
-        const authResult = await client.loginWithToken(username + APP_POSTFIX, token);
+        const authResult = await client.loginWithToken(user_name + APP_POSTFIX, accessToken);
+        client.registerPushNotificationsToken(PushManager.getPushToken());
         return {
             success: true,
             error: null,
@@ -70,6 +77,7 @@ export const getUserDataById = async user_id => {
 };
 
 export const logout = async () => {
+    client.unregisterPushNotificationsToken(PushManager.getPushToken());
     return client.disconnect();
 };
 

@@ -3,18 +3,17 @@ import {
     PermissionsAndroid,
     StyleSheet
 } from 'react-native';
-import { Button, Text, View } from 'native-base';
+import { Button, Text, View, Spinner } from 'native-base';
 import { Voximplant } from 'react-native-voximplant';
 import { connect } from "react-redux";
 import * as actionCreators from "../actions";
 import { getUserData } from "../api/user";
-import Loader from "../components/Loader";
 import ForeignProfileInfo from '../components/ForeignProfileInfo';
 
 class IncomingCall extends React.Component {
 
     state = {
-        remoteParticipant: null,
+        participant: null,
         isAwaitingResponse: false
     };
 
@@ -25,7 +24,12 @@ class IncomingCall extends React.Component {
             ...(sendVideo ? [ PermissionsAndroid.PERMISSIONS.CAMERA ] : [])
         ];
         const permissionsResponse = await PermissionsAndroid.requestMultiple(permissions);
-        this.props.setCurrentCall({ call, isVideo: sendVideo, isIncoming: true });
+        this.props.setCurrentCall({
+            call,
+            isVideo: sendVideo,
+            isIncoming: true,
+            participant: this.state.participant
+        });
         this.props.onCallAnswered();
     }
 
@@ -34,10 +38,18 @@ class IncomingCall extends React.Component {
         call.decline();
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const { call } = this.props.incomingCall;
         call.on(Voximplant.CallEvents.Disconnected, this.onCallDisconnected);
-        call.on(Voximplant.CallEvents.EndpointAdded, this.onCallEndpointAdded);
+        const endpoints = call.getEndpoints();
+        if (!endpoints.length) {
+            call.on(Voximplant.CallEvents.EndpointAdded, this.onCallEndpointAdded);
+        } else {
+            const { userName } = endpoints[0];
+            this.setState({ isAwaitingResponse: true });
+            const participant = await getUserData(userName);
+            this.setState({ participant, isAwaitingResponse: false });
+        }
     }
 
     componentWillUnmount() {
@@ -50,23 +62,23 @@ class IncomingCall extends React.Component {
     }
 
     onCallDisconnected = (event) => {
-        this.props.removeIncomingCall();
         this.props.onCallDisconnected();
     };
 
     onCallEndpointAdded = async event => {
+        this.setState({ isAwaitingResponse: true });
         const { userName } = event.endpoint;
-        const remoteParticipant = await getUserData(userName);
-        this.setState({ remoteParticipant });
+        const participant = await getUserData(userName);
+        this.setState({ participant });
     };
 
     render() {
         if (this.state.isAwaitingResponse) {
-            return <Loader />
-        } else if (this.state.remoteParticipant) {
+            return <Spinner />
+        } else if (this.state.participant) {
             return (
                 <View style={style.container}>
-                    <ForeignProfileInfo {...this.state.remoteParticipant} />
+                    <ForeignProfileInfo {...this.state.participant} />
                     <View style={style.buttonsContainer}>
                         <View style={style.answerButtonsContainer}>
                             <Button success

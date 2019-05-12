@@ -1,3 +1,4 @@
+import { Voximplant } from "react-native-voximplant";
 import { createAction } from 'redux-actions';
 import * as API from "../api/user";
 import AsyncStorage from '@react-native-community/async-storage';
@@ -24,8 +25,12 @@ export const checkAuth = () => async dispatch => {
     dispatch(authRequest());
     try {
         const user_name = await AsyncStorage.getItem('user_name');
-        const savedTokens = JSON.parse(await AsyncStorage.getItem('tokens'));
-        const { success, error, tokens } = await API.loginWithToken(user_name, savedTokens.accessToken);
+        const state = await Voximplant.getInstance().getClientState();
+        if (state === Voximplant.ClientState.LOGGED_IN) {
+            const data = await API.getUserData(user_name);
+            dispatch(authSuccess(data));
+        }
+        const { success, error, tokens } = await API.loginWithSavedToken();
         if (!success) {
             return dispatch(authFailure(error));
         }
