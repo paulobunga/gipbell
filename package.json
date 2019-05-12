@@ -16,6 +16,7 @@
     "react-native": "0.58.6",
     "react-native-camera": "^2.6.0",
     "react-native-elements": "^1.1.0",
+    "react-native-firebase": "^5.3.1",
     "react-native-fs": "2.13.2",
     "react-native-gesture-handler": "^1.1.0",
     "react-native-material-ui": "^1.30.1",
