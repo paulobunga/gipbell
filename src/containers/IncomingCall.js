@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import * as actionCreators from "../actions";
 import { getUserData } from "../api/user";
 import ForeignProfileInfo from '../components/ForeignProfileInfo';
+import CallManager from '../manager/CallManager';
 
 class IncomingCall extends React.Component {
 
@@ -18,6 +19,7 @@ class IncomingCall extends React.Component {
     };
 
     async answer(sendVideo) {
+        CallManager.stopSound();
         const { call } = this.props.incomingCall;
         const permissions = [
             PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,

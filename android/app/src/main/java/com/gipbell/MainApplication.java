@@ -3,6 +3,7 @@ package com.gipbell;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.zmxv.RNSound.RNSoundPackage;
 import com.voximplant.foregroundservice.VIForegroundServicePackage;
 import com.rnfs.RNFSPackage;
 import com.horcrux.svg.SvgPackage;
@@ -53,6 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNSoundPackage(),
             new RNFirebasePackage(),
             new RNFirebaseNotificationsPackage(),
             new RNFirebaseMessagingPackage(),

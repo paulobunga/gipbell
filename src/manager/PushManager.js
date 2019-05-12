@@ -14,12 +14,15 @@ class PushManager {
                 this.pushToken = token;
             });
 
-        const channel = new firebase.notifications.Android.Channel('gipbell_channel_id', 'Incoming call channel', firebase.notifications.Android.Importance.Max)
+        const channel = new firebase.notifications.Android.Channel(
+                'gipbell_channel_id',
+                'Incoming call channel',
+                firebase.notifications.Android.Importance.Max
+            )
             .setDescription('Incoming call received')
-            .enableVibration(true)
+            .enableVibration(false)
             .enableLights(true)
             .setLockScreenVisibility(firebase.notifications.Android.Visibility.Public)
-            .setSound('ringtone.mp3')
             .setVibrationPattern([0,400,800,600,800,800,800,1000]);
         firebase.notifications().android.createChannel(channel);
     }
@@ -29,7 +32,7 @@ class PushManager {
     }
 
     showLocalNotification() {
-        const notification = new firebase.notifications.Notification();
+        const notification = new firebase.notifications.Notification().setSound('muted');
         notification.android.setChannelId('gipbell_channel_id');
         notification.setNotificationId('notificationId');
         notification.setTitle('Incoming call');
