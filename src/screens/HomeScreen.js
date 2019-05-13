@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import CallManager from "../manager/CallManager";
 import * as variables from '../style/variables';
 import {  Text, Button, View } from 'native-base';
+import LogoutButton from '../containers/LogoutButton';
 
 class HomeScreen extends React.Component {
 
@@ -15,8 +16,12 @@ class HomeScreen extends React.Component {
     }
 
     onEditInfo() {
-        this.props.navigation.navigate('');
+        this.props.navigation.navigate('EditInfo');
     }
+
+    onLogout = () => {
+        this.props.navigation.navigate('Auth');
+    };
 
     componentDidMount() {
         CallManager.init();
@@ -46,10 +51,10 @@ class HomeScreen extends React.Component {
                     primary
                     onPress={() => this.onEditInfo()}
                     style={style.button}
-                    disabled={true}
                 >
                     <Text>Edit your information</Text>
                 </Button>
+                <LogoutButton style={style.button} onLogout={this.onLogout}/>
             </View>
         );
     }

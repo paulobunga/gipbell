@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import * as actionCreators from '../actions';
 import { connect } from 'react-redux';
-import { Form, Item, Input, Label, Text, Button } from 'native-base';
+import { Form, Item, Input, Label, Text, Button, Spinner } from 'native-base';
 import * as variables from '../style/variables';
 import { validateName, validatePassword, validateUsername, validatePasswords } from "../util/validation";
 
@@ -116,15 +116,16 @@ class SignUpForm extends React.Component {
                         onChange={this.onNameChange}
                     />
                 </Item>
-                <Button
-                    block
-                    primary
-                    style={style.submit}
-                    onPress={this.onSubmit}
-                    disabled={this.props.isAwaitingResponse}
-                >
-                    <Text>Submit</Text>
-                </Button>
+                {this.props.isAwaitingResponse ?
+                    <Spinner />
+                    : <Button
+                        block
+                        primary
+                        style={style.submit}
+                        onPress={this.onSubmit}
+                    >
+                        <Text>Submit</Text>
+                    </Button>}
                 <Text style={style.errorMessage}>{this.state.errorMessage || this.props.errorMessage}</Text>
             </Form>
         )

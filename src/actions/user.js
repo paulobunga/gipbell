@@ -63,3 +63,43 @@ export const logout = () => async dispatch => {
     AsyncStorage.removeItem('user_name');
     AsyncStorage.removeItem('tokens');
 };
+
+export const changeNameRequest = createAction('USER_CHANGE_NAME_REQUEST');
+export const changeNameSuccess = createAction('USER_CHANGE_NAME_SUCCESS');
+export const changeNameFailure = createAction('USER_CHANGE_NAME_FAILURE');
+export const changeName = (newName, userId) => async dispatch => {
+    dispatch(changeNameRequest());
+    const res = await API.changeName(newName, userId);
+    const { result } = res;
+    if (result !== 1) {
+        return dispatch(changeNameFailure(res.error.msg))
+    }
+    dispatch(changeNameSuccess(newName));
+};
+
+export const changeUsernameRequest = createAction('USER_CHANGE_USERNAME_REQUEST');
+export const changeUsernameSuccess = createAction('USER_CHANGE_USERNAME_SUCCESS');
+export const changeUsernameFailure = createAction('USER_CHANGE_USERNAME_FAILURE');
+export const changeUsername = (newUsername, userId) => async dispatch => {
+    dispatch(changeUsernameRequest());
+    const res = await API.changeUsername(newUsername, userId);
+    const { result } = res;
+    if (result !== 1) {
+        return dispatch(changeUsernameFailure(res.error.msg))
+    }
+    await AsyncStorage.setItem('user_name', newUsername);
+    dispatch(changeUsernameSuccess(newUsername));
+};
+
+export const changePasswordRequest = createAction('USER_CHANGE_PASSWORD_REQUEST');
+export const changePasswordSuccess = createAction('USER_CHANGE_PASSWORD_SUCCESS');
+export const changePasswordFailure = createAction('USER_CHANGE_PASSWORD_FAILURE');
+export const changePassword = (newPassword, userId) => async dispatch => {
+    dispatch(changePasswordRequest());
+    const res = await API.changePassword(newPassword, userId);
+    const { result } = res;
+    if (result !== 1) {
+        return dispatch(changePasswordFailure(res.error.msg))
+    }
+    dispatch(changePasswordSuccess(newPassword));
+};

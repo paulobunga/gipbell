@@ -32,7 +32,7 @@ class PushManager {
     }
 
     showLocalNotification() {
-        const notification = new firebase.notifications.Notification().setSound('muted');
+        const notification = new firebase.notifications.Notification().setSound('muted.mp3');
         notification.android.setChannelId('gipbell_channel_id');
         notification.setNotificationId('notificationId');
         notification.setTitle('Incoming call');

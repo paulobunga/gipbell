@@ -36,6 +36,7 @@ class CallManager {
             isVideo: video
         }));
         call.on(Voximplant.CallEvents.Disconnected, this.onCallDisconnected);
+        call.on(Voximplant.CallEvents.Failed, this.onCallFailed);
         call.on(Voximplant.CallEvents.Connected, this.onCallConnected);
         this.showIncomingScreenOrNotification(e)
     };
@@ -49,6 +50,10 @@ class CallManager {
             store.dispatch(removeIncomingCall());
         }
         this.showIncomingCallScreen = false;
+        this.stopSound();
+    };
+
+    onCallFailed = e => {
         this.stopSound();
     };
 

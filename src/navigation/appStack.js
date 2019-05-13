@@ -5,6 +5,7 @@ import CodeScannerScreen from '../screens/CodeScannerScreen';
 import ForeignProfileScreen from '../screens/ForeignProfileScreen';
 import IncomingCallScreen from '../screens/IncomingCallScreen';
 import ActiveCallScreen from '../screens/ActiveCallScreen';
+import EditInfoScreen from '../screens/EditInfoScreen';
 import headerStyle from "../style/header";
 
 export default createStackNavigator(
@@ -31,6 +32,12 @@ export default createStackNavigator(
             screen: ForeignProfileScreen,
             navigationOptions: ({ navigation }) => ({
                 title: 'Profile',
+            }),
+        },
+        EditInfo: {
+            screen: EditInfoScreen,
+            navigationOptions: ({ navigation }) => ({
+                title: 'Edit info',
             }),
         },
         IncomingCall: {

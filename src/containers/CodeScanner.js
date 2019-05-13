@@ -22,6 +22,7 @@ export default class CodeScanner extends React.Component {
             <QRCodeScanner
                 onRead={e => this.onScan(e)}
                 ref={c => this.scanner = c}
+                showMarker={true}
             />
         );
     }

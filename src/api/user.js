@@ -81,6 +81,27 @@ export const logout = async () => {
     return client.disconnect();
 };
 
+export const changeName = (newName, userId) => {
+    return axios.put(`${BASE_URL}/user`, {
+        user_display_name: newName,
+        user_id: userId
+    }).then(res => res.data);
+};
+
+export const changeUsername = (newUsername, userId) => {
+    return axios.put(`${BASE_URL}/user`, {
+        new_user_name: newUsername,
+        user_id: userId
+    }).then(res => res.data);
+};
+
+export const changePassword = (newPassword, userId) => {
+    return axios.put(`${BASE_URL}/user`, {
+        user_password: newPassword,
+        user_id: userId
+    }).then(res => res.data);
+};
+
 const mapCodeToMessage = code => {
     switch (code) {
         case 401:

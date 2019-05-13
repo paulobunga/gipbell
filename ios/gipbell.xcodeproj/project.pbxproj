@@ -45,6 +45,7 @@
 		ABAEEB60D4B941C2BE18AD13 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 807CD82D41844C53A648112D /* SimpleLineIcons.ttf */; };
 		667BC880B15543409973B7B9 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48D8646370104AD58037E5E2 /* Zocial.ttf */; };
 		AEFB7F2980D44D4198E54A4B /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A752607C2E954D69B72568B7 /* libRNFirebase.a */; };
+		8FD869942A6A4E5E95003C70 /* libRNImgToBase64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DFE5B994F66454DBD615AC1 /* libRNImgToBase64.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +108,8 @@
 		48D8646370104AD58037E5E2 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		1AE911C719F847ABB9DDE925 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; name = "RNFirebase.xcodeproj"; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		A752607C2E954D69B72568B7 /* libRNFirebase.a */ = {isa = PBXFileReference; name = "libRNFirebase.a"; path = "libRNFirebase.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		6CE4425F3E7F4B93ABEF9A2B /* RNImgToBase64.xcodeproj */ = {isa = PBXFileReference; name = "RNImgToBase64.xcodeproj"; path = "../node_modules/react-native-image-base64/ios/RNImgToBase64.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		9DFE5B994F66454DBD615AC1 /* libRNImgToBase64.a */ = {isa = PBXFileReference; name = "libRNImgToBase64.a"; path = "libRNImgToBase64.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +125,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEFB7F2980D44D4198E54A4B /* libRNFirebase.a in Frameworks */,
+				8FD869942A6A4E5E95003C70 /* libRNImgToBase64.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				1AE911C719F847ABB9DDE925 /* RNFirebase.xcodeproj */,
+				6CE4425F3E7F4B93ABEF9A2B /* RNImgToBase64.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -467,10 +472,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 				);
 			};
 			name = Debug;
@@ -494,10 +501,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 				);
 			};
 			name = Release;
@@ -521,6 +530,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 				);
 			};
 			name = Debug;
@@ -543,6 +553,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
 				);
 			};
 			name = Release;
