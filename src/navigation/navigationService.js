@@ -15,3 +15,5 @@ export const navigate = (routeName, params) => {
         })
     );
 };
+
+export const getNavigator = () => navigator;

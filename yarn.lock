@@ -5385,6 +5385,11 @@ react-native-permissions@^1.1.1:
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-1.1.1.tgz#4876004681ff8556454613d85249b01baff9b35b"
   integrity sha512-t0Ujm177bagjUOSzhpmkSz+LqFW04HnY9TeZFavDCmV521fQvFz82aD+POXqWsAdsJVOK3umJYBNNqCjC3g0hQ==
 
+react-native-proximity@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-proximity/-/react-native-proximity-3.0.0.tgz#17152570121467b70070f00b1e6b62ca2cbbc75c"
+  integrity sha512-OnFXxCAcA6veF9jd5i5J3v1RR/IwBnX0DHMfFWmdltqlwDOQQi0dgKwZMyB0FkAeGHdYo7UESzEzmxkJpeqhdQ==
+
 react-native-qrcode-scanner@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/react-native-qrcode-scanner/-/react-native-qrcode-scanner-1.1.2.tgz#5b6dfb4efd267a810bedb1f09b7c9ccb6d321e20"

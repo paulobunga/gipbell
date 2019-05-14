@@ -12,22 +12,24 @@ import {
 } from 'react-native';
 import { Voximplant } from 'react-native-voximplant';
 import { connect } from "react-redux";
+import Proximity from 'react-native-proximity';
 import * as actionCreators from "../actions";
 import VIForegroundService from "@voximplant/react-native-foreground-service";
 import CallButton from '../components/CallButton';
 import styles from '../style/styles';
 import * as variables from '../style/variables';
+import BlackScreen from '../components/BlackScreen';
 
 const CALL_STATES = {
-    DISCONNECTED: 'disconnected',
-    CONNECTING: 'connecting',
-    CONNECTED: 'connected'
+    DISCONNECTED: 'Disconnected',
+    CONNECTING: 'Connecting...',
+    CONNECTED: 'Connected'
 };
 
 class ActiveCall extends React.Component {
 
-    callState = CALL_STATES.DISCONNECTED;
     state = {
+        callState: CALL_STATES.DISCONNECTED,
         isAudioMuted: false,
         isVideoSent: this.props.currentCall.isVideo,
         isKeypadVisible: false,
@@ -37,10 +39,12 @@ class ActiveCall extends React.Component {
         remoteVideoStreamId: null,
         audioDeviceSelectionVisible: false,
         audioDevices: [],
-        audioDeviceIcon: 'hearing'
+        audioDeviceIcon: 'hearing',
+        shouldDisableScreen: false
     };
 
     componentDidMount() {
+        Proximity.addListener(this.onProximityChange);
         const { call, isIncoming, isVideo } = this.props.currentCall;
         if (call) {
             Object.keys(Voximplant.CallEvents).forEach((eventName) => {
@@ -71,7 +75,9 @@ class ActiveCall extends React.Component {
             };
             call.answer(callSettings);
         }
-        this.callState = CALL_STATES.CONNECTING;
+        this.setState({
+            callState: CALL_STATES.CONNECTING
+        });
     }
 
     componentWillUnmount() {
@@ -93,7 +99,14 @@ class ActiveCall extends React.Component {
                 Voximplant.Hardware.AudioDeviceManager.getInstance().off(eventName, this[callbackName]);
             }
         });
+        Proximity.removeListener(this.onProximityChange);
     }
+
+    onProximityChange = e => {
+        this.setState({
+            shouldDisableScreen: e.proximity
+        })
+    };
 
     muteAudio() {
         const { call } = this.props.currentCall;
@@ -165,9 +178,9 @@ class ActiveCall extends React.Component {
     }
 
     _onCallFailed = (event) => {
-        this.callState = CALL_STATES.DISCONNECTED;
         this.props.removeCurrentCall();
         this.setState({
+            callState: CALL_STATES.DISCONNECTED,
             isModalOpen: true,
             modalText: 'Call failed: ' + event.reason,
             remoteVideoStreamId: null,
@@ -181,8 +194,10 @@ class ActiveCall extends React.Component {
             localVideoStreamId: null,
         });
         this.props.removeCurrentCall();
-        this.callState = CALL_STATES.DISCONNECTED;
-        if (Platform.OS === 'android' && Platform.Version >= 26 && this.callState === CALL_STATES.CONNECTED) {
+        this.setState({
+            callState: CALL_STATES.DISCONNECTED
+        });
+        if (Platform.OS === 'android' && Platform.Version >= 26) {
             (async () => {
                 await VIForegroundService.stopService();
             })();
@@ -191,7 +206,9 @@ class ActiveCall extends React.Component {
     };
 
     _onCallConnected = (event) => {
-        this.callState = CALL_STATES.CONNECTED;
+        this.setState({
+            callState: CALL_STATES.CONNECTED
+        });
         if (Platform.OS === 'android' && Platform.Version >= 26) {
             const channelConfig = {
                 id: 'ForegroundServiceChannel',
@@ -289,12 +306,23 @@ class ActiveCall extends React.Component {
     };
 
     render() {
+        if (this.state.shouldDisableScreen) {
+            return (
+                <BlackScreen />
+            )
+        }
         return (
             <SafeAreaView style={styles.safearea}>
                 <View style={styles.useragent}>
                     <View style={styles.videoPanel}>
-                        <Voximplant.VideoView style={styles.remotevideo} videoStreamId={this.state.remoteVideoStreamId}
-                                              scaleType={Voximplant.RenderScaleType.SCALE_FIT}/>
+                        {this.state.remoteVideoStreamId ?
+                            <Voximplant.VideoView
+                                style={styles.remotevideo}
+                                videoStreamId={this.state.remoteVideoStreamId}
+                                scaleType={Voximplant.RenderScaleType.SCALE_FIT}/>
+                            : null
+                        }
+
                         {this.state.isVideoSent ? (
                             <Voximplant.VideoView style={styles.selfview} videoStreamId={this.state.localVideoStreamId}
                                                   scaleType={Voximplant.RenderScaleType.SCALE_FIT} showOnTop={true}/>
@@ -303,8 +331,8 @@ class ActiveCall extends React.Component {
                         )}
                     </View>
 
-                    <View style={{alignItems: 'center', justifyContent: 'center'}}>
-                        <Text style={styles.call_connecting_label}>{this.state.callState}</Text>
+                    <View style={{alignItems: 'center', justifyContent: 'center', marginBottom: 5}}>
+                        <Text style={styles.call_connecting_label}>Status: {this.state.callState}</Text>
                     </View>
 
 
@@ -315,19 +343,19 @@ class ActiveCall extends React.Component {
                             backgroundColor: 'transparent'
                         }}>
                             {this.state.isAudioMuted ? (
-                                <CallButton icon_name='mic' color={variables.infoBgColor}
+                                <CallButton icon_name='mic-off' color={variables.infoBgColor}
                                             buttonPressed={() => this.muteAudio()}/>
                             ) : (
-                                <CallButton icon_name='mic-off' color={variables.infoBgColor}
+                                <CallButton icon_name='mic' color={variables.infoBgColor}
                                             buttonPressed={() => this.muteAudio()}/>
                             )}
                             <CallButton icon_name={this.state.audioDeviceIcon} color={variables.infoBgColor}
                                         buttonPressed={() => this.switchAudioDevice()}/>
                             {this.state.isVideoSent ? (
-                                <CallButton icon_name='videocam-off' color={variables.infoBgColor}
+                                <CallButton icon_name='video-call' color={variables.infoBgColor}
                                             buttonPressed={() => this.sendVideo(false)}/>
                             ) : (
-                                <CallButton icon_name='video-call' color={variables.infoBgColor}
+                                <CallButton icon_name='videocam-off' color={variables.infoBgColor}
                                             buttonPressed={() => this.sendVideo(true)}/>
                             )}
                             <CallButton icon_name='call-end' color={variables.dangerBgColor} buttonPressed={() => this.endCall()}/>

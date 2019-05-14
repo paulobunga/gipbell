@@ -10,6 +10,8 @@ import * as actionCreators from "../actions";
 import { getUserData } from "../api/user";
 import ForeignProfileInfo from '../components/ForeignProfileInfo';
 import CallManager from '../manager/CallManager';
+import * as variables from "../style/variables";
+import CallButton from "../components/CallButton";
 
 class IncomingCall extends React.Component {
 
@@ -82,25 +84,24 @@ class IncomingCall extends React.Component {
                 <View style={style.container}>
                     <ForeignProfileInfo {...this.state.participant} />
                     <View style={style.buttonsContainer}>
-                        <View style={style.answerButtonsContainer}>
-                            <Button success
-                                    onPress={e => this.answer(false)}
-                            >
-                                <Text>Answer (audio)</Text>
-                            </Button>
-                            <Button success
-                                    onPress={e => this.answer(true)}
-                            >
-                                <Text>Answer (video)</Text>
-                            </Button>
-                        </View>
-                        <Button block
-                                style={style.declineButton}
-                                danger
-                                onPress={e => this.decline()}
-                        >
-                            <Text>Decline</Text>
-                        </Button>
+                            <CallButton
+                                icon_name='call'
+                                color={variables.sucessBgColor}
+                                buttonPressed={() => this.answer(false)}
+                                style={style.button}
+                            />
+                            <CallButton
+                                icon_name='videocam'
+                                color={variables.sucessBgColor}
+                                buttonPressed={() => this.answer(true)}
+                                style={style.button}
+                            />
+                            <CallButton
+                                icon_name='call-end'
+                                color={variables.dangerBgColor}
+                                buttonPressed={() => this.decline()}
+                                style={style.button}
+                            />
                     </View>
                 </View>
             );
@@ -117,19 +118,12 @@ const style = StyleSheet.create({
     buttonsContainer: {
         marginTop: 20,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        flexDirection: 'row'
     },
-    answerButtonsContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '90%'
-    },
-    declineButton: {
-        marginTop: 10,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        width: '90%'
+    button: {
+        marginLeft: 7,
+        marginRight: 7
     }
 });
 

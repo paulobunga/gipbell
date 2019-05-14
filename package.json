@@ -22,6 +22,7 @@
     "react-native-image-picker": "^0.28.1",
     "react-native-material-ui": "^1.30.1",
     "react-native-paper": "^2.15.2",
+    "react-native-proximity": "^3.0.0",
     "react-native-qrcode-scanner": "^1.1.2",
     "react-native-qrcode-svg": "^5.1.2",
     "react-native-reanimated": "^1.0.1",

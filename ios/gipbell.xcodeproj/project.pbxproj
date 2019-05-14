@@ -46,6 +46,7 @@
 		667BC880B15543409973B7B9 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48D8646370104AD58037E5E2 /* Zocial.ttf */; };
 		AEFB7F2980D44D4198E54A4B /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A752607C2E954D69B72568B7 /* libRNFirebase.a */; };
 		8FD869942A6A4E5E95003C70 /* libRNImgToBase64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9DFE5B994F66454DBD615AC1 /* libRNImgToBase64.a */; };
+		DB8AD488AAF94E81AFBCB1E1 /* libRNProximity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 55AC02EDC553440A91446D69 /* libRNProximity.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +111,8 @@
 		A752607C2E954D69B72568B7 /* libRNFirebase.a */ = {isa = PBXFileReference; name = "libRNFirebase.a"; path = "libRNFirebase.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		6CE4425F3E7F4B93ABEF9A2B /* RNImgToBase64.xcodeproj */ = {isa = PBXFileReference; name = "RNImgToBase64.xcodeproj"; path = "../node_modules/react-native-image-base64/ios/RNImgToBase64.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		9DFE5B994F66454DBD615AC1 /* libRNImgToBase64.a */ = {isa = PBXFileReference; name = "libRNImgToBase64.a"; path = "libRNImgToBase64.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		1BA52D4784F74DC19F57F648 /* RNProximity.xcodeproj */ = {isa = PBXFileReference; name = "RNProximity.xcodeproj"; path = "../node_modules/react-native-proximity/RNProximity/RNProximity.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		55AC02EDC553440A91446D69 /* libRNProximity.a */ = {isa = PBXFileReference; name = "libRNProximity.a"; path = "libRNProximity.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +129,7 @@
 			files = (
 				AEFB7F2980D44D4198E54A4B /* libRNFirebase.a in Frameworks */,
 				8FD869942A6A4E5E95003C70 /* libRNImgToBase64.a in Frameworks */,
+				DB8AD488AAF94E81AFBCB1E1 /* libRNProximity.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +182,7 @@
 			children = (
 				1AE911C719F847ABB9DDE925 /* RNFirebase.xcodeproj */,
 				6CE4425F3E7F4B93ABEF9A2B /* RNImgToBase64.xcodeproj */,
+				1BA52D4784F74DC19F57F648 /* RNProximity.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -473,11 +478,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
+					"$(SRCROOT)/../node_modules/react-native-proximity/RNProximity/RNProximity",
 				);
 			};
 			name = Debug;
@@ -502,11 +509,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
+					"$(SRCROOT)/../node_modules/react-native-proximity/RNProximity/RNProximity",
 				);
 			};
 			name = Release;
@@ -531,6 +540,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
+					"$(SRCROOT)/../node_modules/react-native-proximity/RNProximity/RNProximity",
 				);
 			};
 			name = Debug;
@@ -554,6 +564,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/react-native-image-base64/ios",
+					"$(SRCROOT)/../node_modules/react-native-proximity/RNProximity/RNProximity",
 				);
 			};
 			name = Release;

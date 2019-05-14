@@ -3,6 +3,7 @@ package com.gipbell;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.RNProximity.RNProximityPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.voximplant.foregroundservice.VIForegroundServicePackage;
@@ -55,6 +56,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNProximityPackage(),
             new ImagePickerPackage(),
             new RNSoundPackage(),
             new RNFirebasePackage(),

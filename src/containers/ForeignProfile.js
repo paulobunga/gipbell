@@ -11,6 +11,8 @@ import * as actionCreators from "../actions";
 import { getUserDataById } from "../api/user";
 import Loader from '../components/Loader';
 import ForeignProfileInfo from '../components/ForeignProfileInfo';
+import * as variables from "../style/variables";
+import CallButton from "../components/CallButton";
 
 class ForeignProfile extends React.Component {
 
@@ -63,20 +65,18 @@ class ForeignProfile extends React.Component {
                         {...userData}
                     />
                     <View style={style.buttonsContainer}>
-                        <Button style={style.button}
-                            primary
-                            onPress={e => this.makeCall(false)}
-                            // disabled={this.props.isAwaitingResponse}
-                        >
-                            <Text>Audio call</Text>
-                        </Button>
-                        <Button style={style.button}
-                            primary
-                            onPress={e => this.makeCall(true)}
-                            // disabled={this.props.isAwaitingResponse}
-                        >
-                            <Text>Video call</Text>
-                        </Button>
+                        <CallButton
+                            icon_name='call'
+                            color={variables.sucessBgColor}
+                            buttonPressed={() => this.makeCall(false)}
+                            style={style.button}
+                        />
+                        <CallButton
+                            icon_name='videocam'
+                            color={variables.sucessBgColor}
+                            buttonPressed={() => this.makeCall(true)}
+                            style={style.button}
+                        />
                     </View>
                 </View>
 
@@ -98,12 +98,13 @@ const style = StyleSheet.create({
     buttonsContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
+        alignItems: 'center',
         width: '100%',
         marginTop: 10,
     },
     button: {
-        marginLeft: 10,
-        marginRight: 10
+        marginLeft: 7,
+        marginRight: 7
     },
 });
 

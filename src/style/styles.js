@@ -59,8 +59,8 @@ export default StyleSheet.create({
         position: 'absolute',
         right: 20,
         bottom: 20,
-        width: 100,
-        height: 120,
+        width: 120,
+        height: 140,
     },
     remotevideo: {
         flex: 1,
