@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import * as actionCreators from "../actions";
 import { getUserData } from "../api/user";
 import ForeignProfileInfo from '../components/ForeignProfileInfo';
-import CallManager from '../manager/CallManager';
+import CallManager from '../managers/CallManager';
 import * as variables from "../style/variables";
 import CallButton from "../components/CallButton";
 

@@ -4,7 +4,7 @@ import ActiveCall from '../containers/ActiveCall';
 class ActiveCallScreen extends React.Component {
 
     onCallEnded = () => {
-        this.props.navigation.replace('Home');
+        this.props.navigation.popToTop();
     };
 
     render() {

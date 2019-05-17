@@ -6,12 +6,19 @@ import ForeignProfileScreen from '../screens/ForeignProfileScreen';
 import IncomingCallScreen from '../screens/IncomingCallScreen';
 import ActiveCallScreen from '../screens/ActiveCallScreen';
 import EditInfoScreen from '../screens/EditInfoScreen';
+import ConnectionLoadingScreen from '../screens/ConnectionLoadingScreen';
 import headerStyle from "../style/header";
 
 export default createStackNavigator(
     {
         Home: {
             screen: HomeScreen,
+            navigationOptions: {
+                header: null
+            }
+        },
+        ConnectionLoading: {
+            screen: ConnectionLoadingScreen,
             navigationOptions: {
                 header: null
             }

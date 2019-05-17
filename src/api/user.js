@@ -1,12 +1,11 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import { Voximplant } from 'react-native-voximplant';
-import { authFailure, authSuccess } from "../actions";
-import PushManager from "../manager/PushManager";
+import PushManager from "../managers/PushManager";
 import { APP_POSTFIX, BASE_URL } from "./constants";
 import axios from 'axios';
 
 const client = Voximplant.getInstance({});
-client.disconnect();
+// client.disconnect();
 
 export const loginWithPassword = async (username, password) => {
     try {

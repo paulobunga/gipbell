@@ -80,19 +80,14 @@ class ActiveCall extends React.Component {
         });
     }
 
-    componentWillUnmount() {
-        if (!this.props.currentCall) {
-            return;
-        }
-        const { call, isIncoming, isVideo } = this.props.currentCall;
-        if (call) {
-            Object.keys(Voximplant.CallEvents).forEach((eventName) => {
-                const callbackName = `_onCall${eventName}`;
-                if (typeof this[callbackName] !== 'undefined') {
-                    call.off(eventName, this[callbackName]);
-                }
-            });
-        }
+    unsubscribe() {
+        const { call } = this.props.currentCall;
+        Object.keys(Voximplant.CallEvents).forEach((eventName) => {
+            const callbackName = `_onCall${eventName}`;
+            if (typeof this[callbackName] !== 'undefined') {
+                call.off(eventName, this[callbackName]);
+            }
+        });
         Object.keys(Voximplant.Hardware.AudioDeviceEvents).forEach((eventName) => {
             const callbackName = `_onAudio${eventName}`;
             if (typeof this[callbackName] !== 'undefined') {
@@ -193,15 +188,20 @@ class ActiveCall extends React.Component {
             remoteVideoStreamId: null,
             localVideoStreamId: null,
         });
-        this.props.removeCurrentCall();
         this.setState({
             callState: CALL_STATES.DISCONNECTED
         });
         if (Platform.OS === 'android' && Platform.Version >= 26) {
             (async () => {
-                await VIForegroundService.stopService();
+                try {
+                    await VIForegroundService.stopService();
+                } catch(e) {
+                    // console.log(e);
+                }
             })();
         }
+        this.unsubscribe();
+        this.props.removeCurrentCall();
         this.props.onCallEnded();
     };
 

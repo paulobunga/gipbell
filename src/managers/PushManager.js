@@ -22,8 +22,7 @@ class PushManager {
             .setDescription('Incoming call received')
             .enableVibration(false)
             .enableLights(true)
-            .setLockScreenVisibility(firebase.notifications.Android.Visibility.Public)
-            .setVibrationPattern([0,400,800,600,800,800,800,1000]);
+            .setLockScreenVisibility(firebase.notifications.Android.Visibility.Public);
         firebase.notifications().android.createChannel(channel);
     }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import * as actionCreators from '../actions';
 import { connect } from 'react-redux';
 import Loader from '../components/Loader';
-import PushManager from "../manager/PushManager";
+import PushManager from "../managers/PushManager";
 
 class AuthChecker extends React.Component {
 

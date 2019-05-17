@@ -7,6 +7,7 @@ import { CameraRoll , ToastAndroid } from "react-native"
 import RNFS from "react-native-fs"
 import { View, Text, Button } from 'native-base';
 import { PermissionsAndroid } from 'react-native';
+import appIconBase64 from '../assets/icons/appIconBase64-black';
 
 class CodeGenerator extends React.Component {
 
@@ -47,6 +48,8 @@ class CodeGenerator extends React.Component {
             <View style={style.container}>
                 <QRCode
                     value={JSON.stringify({user_id: this.props.user_id})}
+                    logo={{ uri: appIconBase64 }}
+                    logoSize={60}
                     getRef={(c) => (this.svg = c)}
                     size={300}
                 />

@@ -2,7 +2,7 @@ import React from 'react';
 import { Voximplant } from 'react-native-voximplant';
 import { setIncomingCall, removeIncomingCall } from "../actions";
 import { navigate } from "../navigation/navigationService";
-import PushManager from '../manager/PushManager';
+import PushManager from './/PushManager';
 import { AppState, Vibration } from 'react-native';
 import { store } from '../store';
 import Sound  from 'react-native-sound';
