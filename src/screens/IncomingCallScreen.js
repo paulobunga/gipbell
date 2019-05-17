@@ -10,7 +10,7 @@ class IncomingCallScreen extends React.Component {
     };
 
     onCallAnswered = () => {
-        this.props.navigation.navigate('ActiveCall');
+        this.props.navigation.replace('ActiveCall');
     };
 
     render() {
@@ -33,7 +33,7 @@ const style = StyleSheet.create({
         alignItems: 'center'
     },
     header: {
-        fontSize: variables.fontXLarge,
+        fontSize: variables.fontXXLarge,
         color: variables.primaryTextColor,
         marginBottom: 30
     }

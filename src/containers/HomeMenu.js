@@ -23,33 +23,63 @@ class HomeMenu extends React.Component {
         this.props.navigation.navigate('Auth');
     };
 
+    onActiveCall = () => {
+        this.props.navigation.navigate('ActiveCall');
+    };
+
+    getButtons() {
+        const { currentCall } = this.props.call;
+        const logoutButton = <LogoutButton style={style.button} onLogout={this.onLogout}/>;
+        if (currentCall) {
+            return (
+                <View style={{ width: '100%'}}>
+                    <Button
+                        block
+                        success
+                        onPress={() => this.onActiveCall()}
+                    >
+                        <Text>Active call</Text>
+                    </Button>
+                    {logoutButton}
+                </View>
+            )
+        } else {
+            return (
+                <View style={{ width: '100%'}}>
+                    <Button
+                        block
+                        primary
+                        onPress={() => this.onScan()}
+                        style={style.button}
+                    >
+                        <Text>Scan QR code</Text>
+                    </Button>
+                    <Button
+                        block
+                        primary
+                        onPress={() => this.onGenerate()}
+                        style={style.button}
+                    >
+                        <Text>Get your QR code</Text>
+                    </Button>
+                    <Button
+                        block
+                        primary
+                        onPress={() => this.onEditInfo()}
+                        style={style.button}
+                    >
+                        <Text>Edit your information</Text>
+                    </Button>
+                    {logoutButton}
+                </View>
+            )
+        }
+    }
+
     render() {
         return (
             <View style={style.container}>
-                <Button
-                    block
-                    primary
-                    onPress={() => this.onScan()}
-                >
-                    <Text>Scan QR code</Text>
-                </Button>
-                <Button
-                    block
-                    primary
-                    onPress={() => this.onGenerate()}
-                    style={style.button}
-                >
-                    <Text>Generate your QR code</Text>
-                </Button>
-                <Button
-                    block
-                    primary
-                    onPress={() => this.onEditInfo()}
-                    style={style.button}
-                >
-                    <Text>Edit your information</Text>
-                </Button>
-                <LogoutButton style={style.button} onLogout={this.onLogout}/>
+                {this.getButtons()}
             </View>
         )
     }

@@ -26,7 +26,7 @@ export default createStackNavigator(
         CodeGenerator: {
             screen: CodeGeneratorScreen,
             navigationOptions: ({ navigation }) => ({
-                title: 'Generate your QR code',
+                title: 'Get your QR code',
             }),
         },
         CodeScanner: {

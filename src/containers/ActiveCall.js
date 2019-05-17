@@ -19,45 +19,23 @@ import CallButton from '../components/CallButton';
 import styles from '../style/styles';
 import * as variables from '../style/variables';
 import BlackScreen from '../components/BlackScreen';
-
-const CALL_STATES = {
-    DISCONNECTED: 'Disconnected',
-    CONNECTING: 'Connecting...',
-    CONNECTED: 'Connected'
-};
+import CALL_STATES from '../constants/callStates';
 
 class ActiveCall extends React.Component {
-
-    state = {
-        callState: CALL_STATES.DISCONNECTED,
-        isAudioMuted: false,
-        isVideoSent: this.props.currentCall.isVideo,
-        isKeypadVisible: false,
-        isModalOpen: false,
-        modalText: '',
-        localVideoStreamId: null,
-        remoteVideoStreamId: null,
-        audioDeviceSelectionVisible: false,
-        audioDevices: [],
-        audioDeviceIcon: 'hearing',
-        shouldDisableScreen: false
-    };
 
     componentDidMount() {
         Proximity.addListener(this.onProximityChange);
         const { call, isIncoming, isVideo } = this.props.currentCall;
-        if (call) {
-            Object.keys(Voximplant.CallEvents).forEach((eventName) => {
-                const callbackName = `_onCall${eventName}`;
-                if (typeof this[callbackName] !== 'undefined') {
-                    call.on(eventName, this[callbackName]);
-                }
-            });
-            if (isIncoming) {
-                call.getEndpoints().forEach(endpoint => {
-                    this._setupEndpointListeners(endpoint, true);
-                });
+        Object.keys(Voximplant.CallEvents).forEach((eventName) => {
+            const callbackName = `_onCall${eventName}`;
+            if (typeof this[callbackName] !== 'undefined') {
+                call.on(eventName, this[callbackName]);
             }
+        });
+        if (isIncoming) {
+            call.getEndpoints().forEach(endpoint => {
+                this._setupEndpointListeners(endpoint, true);
+            });
         }
         Object.keys(Voximplant.Hardware.AudioDeviceEvents).forEach((eventName) => {
             const callbackName = `_onAudio${eventName}`;
@@ -75,7 +53,7 @@ class ActiveCall extends React.Component {
             };
             call.answer(callSettings);
         }
-        this.setState({
+        this.props.setCurrentCallProperty({
             callState: CALL_STATES.CONNECTING
         });
     }
@@ -98,16 +76,16 @@ class ActiveCall extends React.Component {
     }
 
     onProximityChange = e => {
-        this.setState({
+        this.props.setCurrentCallProperty({
             shouldDisableScreen: e.proximity
         })
     };
 
     muteAudio() {
         const { call } = this.props.currentCall;
-        const isMuted = this.state.isAudioMuted;
+        const isMuted = this.props.currentCall.isAudioMuted;
         call.sendAudio(isMuted);
-        this.setState({isAudioMuted: !isMuted});
+        this.props.setCurrentCallProperty({isAudioMuted: !isMuted});
     }
 
     async sendVideo(doSend) {
@@ -120,7 +98,7 @@ class ActiveCall extends React.Component {
                 }
             }
             await call.sendVideo(doSend);
-            this.setState({isVideoSent: doSend});
+            this.props.setCurrentCallProperty({isVideoSent: doSend});
         } catch (e) {
             console.warn(`Failed to sendVideo(${doSend}) due to ${e.code} ${e.message}`);
         }
@@ -153,28 +131,29 @@ class ActiveCall extends React.Component {
     }
 
     switchKeypad() {
-        let isVisible = this.state.isKeypadVisible;
-        this.setState({isKeypadVisible: !isVisible});
+        let isVisible = this.props.isKeypadVisible;
+        this.props.setCurrentCallProperty({isKeypadVisible: !isVisible});
     }
 
     async switchAudioDevice() {
         let devices = await Voximplant.Hardware.AudioDeviceManager.getInstance().getAudioDevices();
-        this.setState({audioDevices: devices, audioDeviceSelectionVisible: true});
+        this.props.setCurrentCallProperty({audioDevices: devices, audioDeviceSelectionVisible: true});
     }
 
     selectAudioDevice(device) {
         Voximplant.Hardware.AudioDeviceManager.getInstance().selectAudioDevice(device);
-        this.setState({audioDeviceSelectionVisible: false});
+        this.props.setCurrentCallProperty({audioDeviceSelectionVisible: false});
     }
 
     _closeModal() {
-        this.setState({isModalOpen: false, modalText: ''});
+        this.props.setCurrentCallProperty({isModalOpen: false, modalText: ''});
+        this.unsubscribe();
+        this.props.removeCurrentCall();
         this.props.onCallEnded();
     }
 
     _onCallFailed = (event) => {
-        this.props.removeCurrentCall();
-        this.setState({
+        this.props.setCurrentCallProperty({
             callState: CALL_STATES.DISCONNECTED,
             isModalOpen: true,
             modalText: 'Call failed: ' + event.reason,
@@ -183,22 +162,11 @@ class ActiveCall extends React.Component {
         });
     };
 
-    _onCallDisconnected = (event) => {
-        this.setState({
-            remoteVideoStreamId: null,
-            localVideoStreamId: null,
-        });
-        this.setState({
-            callState: CALL_STATES.DISCONNECTED
-        });
-        if (Platform.OS === 'android' && Platform.Version >= 26) {
-            (async () => {
-                try {
-                    await VIForegroundService.stopService();
-                } catch(e) {
-                    // console.log(e);
-                }
-            })();
+    _onCallDisconnected = async (event) => {
+        try {
+            await VIForegroundService.stopService();
+        } catch(e) {
+            console.log(e);
         }
         this.unsubscribe();
         this.props.removeCurrentCall();
@@ -206,7 +174,7 @@ class ActiveCall extends React.Component {
     };
 
     _onCallConnected = (event) => {
-        this.setState({
+        this.props.setCurrentCallProperty({
             callState: CALL_STATES.CONNECTED
         });
         if (Platform.OS === 'android' && Platform.Version >= 26) {
@@ -231,11 +199,11 @@ class ActiveCall extends React.Component {
     };
 
     _onCallLocalVideoStreamAdded = (event) => {
-        this.setState({localVideoStreamId: event.videoStream.id});
+        this.props.setCurrentCallProperty({localVideoStreamId: event.videoStream.id});
     };
 
     _onCallLocalVideoStreamRemoved = (event) => {
-        this.setState({localVideoStreamId: null});
+        this.props.setCurrentCallProperty({localVideoStreamId: null});
     };
 
     _onCallEndpointAdded = (event) => {
@@ -243,11 +211,11 @@ class ActiveCall extends React.Component {
     };
 
     _onEndpointRemoteVideoStreamAdded = (event) => {
-        this.setState({remoteVideoStreamId: event.videoStream.id});
+        this.props.setCurrentCallProperty({remoteVideoStreamId: event.videoStream.id});
     };
 
     _onEndpointRemoteVideoStreamRemoved = (event) => {
-        this.setState({remoteVideoStreamId: null});
+        this.props.setCurrentCallProperty({remoteVideoStreamId: null});
     };
 
     _onEndpointRemoved = (event) => {
@@ -269,17 +237,17 @@ class ActiveCall extends React.Component {
     _onAudioDeviceChanged = (event) => {
         switch (event.currentDevice) {
             case Voximplant.Hardware.AudioDevice.BLUETOOTH:
-                this.setState({audioDeviceIcon: 'bluetooth-audio'});
+                this.props.setCurrentCallProperty({audioDeviceIcon: 'bluetooth-audio'});
                 break;
             case Voximplant.Hardware.AudioDevice.SPEAKER:
-                this.setState({audioDeviceIcon: 'volume-up'});
+                this.props.setCurrentCallProperty({audioDeviceIcon: 'volume-up'});
                 break;
             case Voximplant.Hardware.AudioDevice.WIRED_HEADSET:
-                this.setState({audioDeviceIcon: 'headset'});
+                this.props.setCurrentCallProperty({audioDeviceIcon: 'headset'});
                 break;
             case Voximplant.Hardware.AudioDevice.EARPIECE:
             default:
-                this.setState({audioDeviceIcon: 'hearing'});
+                this.props.setCurrentCallProperty({audioDeviceIcon: 'hearing'});
                 break;
         }
     };
@@ -288,7 +256,7 @@ class ActiveCall extends React.Component {
         (async () => {
             let device = await Voximplant.Hardware.AudioDeviceManager.getInstance().getActiveDevice();
         })();
-        this.setState({audioDevices: event.newDeviceList});
+        this.props.setCurrentCallProperty({audioDevices: event.newDeviceList});
     };
 
     flatListItemSeparator = () => {
@@ -306,7 +274,10 @@ class ActiveCall extends React.Component {
     };
 
     render() {
-        if (this.state.shouldDisableScreen) {
+        if (!this.props.currentCall) {
+            return null;
+        }
+        if (this.props.currentCall.shouldDisableScreen) {
             return (
                 <BlackScreen />
             )
@@ -315,16 +286,16 @@ class ActiveCall extends React.Component {
             <SafeAreaView style={styles.safearea}>
                 <View style={styles.useragent}>
                     <View style={styles.videoPanel}>
-                        {this.state.remoteVideoStreamId ?
+                        {this.props.currentCall.remoteVideoStreamId ?
                             <Voximplant.VideoView
                                 style={styles.remotevideo}
-                                videoStreamId={this.state.remoteVideoStreamId}
+                                videoStreamId={this.props.currentCall.remoteVideoStreamId}
                                 scaleType={Voximplant.RenderScaleType.SCALE_FIT}/>
                             : null
                         }
 
-                        {this.state.isVideoSent ? (
-                            <Voximplant.VideoView style={styles.selfview} videoStreamId={this.state.localVideoStreamId}
+                        {this.props.currentCall.isVideoSent ? (
+                            <Voximplant.VideoView style={styles.selfview} videoStreamId={this.props.currentCall.localVideoStreamId}
                                                   scaleType={Voximplant.RenderScaleType.SCALE_FIT} showOnTop={true}/>
                         ) : (
                             null
@@ -332,7 +303,7 @@ class ActiveCall extends React.Component {
                     </View>
 
                     <View style={{alignItems: 'center', justifyContent: 'center', marginBottom: 5}}>
-                        <Text style={styles.call_connecting_label}>Status: {this.state.callState}</Text>
+                        <Text style={styles.call_connecting_label}>Status: {this.props.currentCall.callState}</Text>
                     </View>
 
 
@@ -342,16 +313,16 @@ class ActiveCall extends React.Component {
                             justifyContent: 'space-around',
                             backgroundColor: 'transparent'
                         }}>
-                            {this.state.isAudioMuted ? (
+                            {this.props.currentCall.isAudioMuted ? (
                                 <CallButton icon_name='mic-off' color={variables.infoBgColor}
                                             buttonPressed={() => this.muteAudio()}/>
                             ) : (
                                 <CallButton icon_name='mic' color={variables.infoBgColor}
                                             buttonPressed={() => this.muteAudio()}/>
                             )}
-                            <CallButton icon_name={this.state.audioDeviceIcon} color={variables.infoBgColor}
+                            <CallButton icon_name={this.props.currentCall.audioDeviceIcon} color={variables.infoBgColor}
                                         buttonPressed={() => this.switchAudioDevice()}/>
-                            {this.state.isVideoSent ? (
+                            {this.props.currentCall.isVideoSent ? (
                                 <CallButton icon_name='video-call' color={variables.infoBgColor}
                                             buttonPressed={() => this.sendVideo(false)}/>
                             ) : (
@@ -366,18 +337,18 @@ class ActiveCall extends React.Component {
                     <Modal
                         animationType='fade'
                         transparent={true}
-                        visible={this.state.audioDeviceSelectionVisible}
+                        visible={this.props.currentCall.audioDeviceSelectionVisible}
                         onRequestClose={() => {
                         }}>
                         <TouchableHighlight
                             onPress={() => {
-                                this.setState({audioDeviceSelectionVisible: false})
+                                this.props.setCurrentCallProperty({audioDeviceSelectionVisible: false})
                             }}
                             style={styles.container}>
                             <View style={[styles.container, styles.modalBackground]}>
                                 <View style={[styles.innerContainer, styles.innerContainerTransparent]}>
                                     <FlatList
-                                        data={this.state.audioDevices}
+                                        data={this.props.currentCall.audioDevices}
                                         keyExtractor={(item, index) => item}
                                         ItemSeparatorComponent={this.flatListItemSeparator}
                                         renderItem={({item}) => <Text onPress={() => {
@@ -393,7 +364,7 @@ class ActiveCall extends React.Component {
                     <Modal
                         animationType='fade'
                         transparent={true}
-                        visible={this.state.isModalOpen}
+                        visible={this.props.currentCall.isModalOpen}
                         onRequestClose={() => {
                         }}>
                         <TouchableHighlight
@@ -402,7 +373,7 @@ class ActiveCall extends React.Component {
                             <View style={[styles.container, styles.modalBackground]}>
                                 <View
                                     style={[styles.innerContainer, styles.innerContainerTransparent]}>
-                                    <Text>{this.state.modalText}</Text>
+                                    <Text>{this.props.currentCall.modalText}</Text>
                                 </View>
                             </View>
                         </TouchableHighlight>

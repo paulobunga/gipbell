@@ -5,7 +5,7 @@ import ForeignProfile from '../containers/ForeignProfile';
 class ForeignProfileScreen extends React.Component {
 
     onCallMade = () => {
-        this.props.navigation.navigate('ActiveCall');
+        this.props.navigation.replace('ActiveCall');
     };
 
     render() {

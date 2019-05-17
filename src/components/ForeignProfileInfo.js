@@ -7,20 +7,12 @@ const ForeignProfileInfo = props => {
     return (
         <View style={style.container}>
             <View style={style.row}>
-                <View style={style.label}>
-                    <Text style={style.labelText}>Username:</Text>
-                </View>
-                <View style={style.value}>
-                    <Text style={style.valueText}>{props.user_name}</Text>
-                </View>
+                <Text style={style.labelText}>Username:</Text>
+                <Text style={style.valueText} numberOfLines={1}>{props.user_name}</Text>
             </View>
             <View style={style.row}>
-                <View style={style.label}>
-                    <Text style={style.labelText}>Name:</Text>
-                </View>
-                <View style={style.value}>
-                    <Text style={style.valueText}>{props.user_display_name}</Text>
-                </View>
+                <Text style={style.labelText}>Name:</Text>
+                <Text style={style.valueText} numberOfLines={1}>{props.user_display_name}</Text>
             </View>
         </View>
     );
@@ -32,27 +24,19 @@ const style = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto'
     },
-    label: {
-        width: '50%'
-    },
     labelText: {
-        color: variables.mutedTextColor,
-        textAlign: 'right',
-        fontSize: variables.fontMedium
-    },
-    value: {
-        width: '50%',
-        marginLeft: 20
+        color: variables.infoTextColor,
+        fontSize: variables.fontSmall
     },
     valueText: {
         color: variables.darkTextColor,
-        fontSize: variables.fontLarge
+        fontSize: variables.fontXLarge
     },
     row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: 5
+        marginBottom: 10
     }
 });
 
